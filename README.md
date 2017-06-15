@@ -33,7 +33,6 @@ To train the models, use the following command:
 
 ```
 java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.TrainAllClassifiers path/to/train.xml
- path/to/train.xml
 ```
 
 If you want to train from the TSV file, you can do so as well. Note, that in this case, no model for Aspect Target Identification is being trained.
@@ -43,11 +42,11 @@ java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.TrainAllC
 
 You can test the models by executing:
 ```
-java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify ../dev.xml
+java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify path/to/dev.xml
 ```
 or
 ```
-java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify ../dev.tsv
+java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify path/to/dev.tsv
 ```
 
 This will produce a file with "_classified" added to its name. This file contains the predictions.
@@ -73,8 +72,8 @@ A quick way to do this is to add the following repository to your projects POM f
 ```
 	<repositories>
 		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 ```
@@ -82,7 +81,7 @@ A quick way to do this is to add the following repository to your projects POM f
 Now, you can add the project's dependency:
 
 ```
-    <dependency>
+	<dependency>
 	    <groupId>com.github.uhh-lt</groupId>
 	    <artifactId>GermEval2017-Baseline</artifactId>
 	    <version>-SNAPSHOT</version>
@@ -114,7 +113,7 @@ public class MyClass {
 
 
 ## Licence
-This software is published under the Apache Software Licence 2.0
+This software is published under the Apache Software Licence 2.0.
 
 
 ## References
