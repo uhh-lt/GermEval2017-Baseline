@@ -4,6 +4,7 @@
 ## Overview
 
 This baseline system performs relevance classification, sentiment analysis, aspect categorization and opinion target extraction from a document. It was designed for the GermEval 2017 Shared Task on Aspect Based Sentiment Analysis (https://sites.google.com/view/germeval2017-absa/)
+JavaDoc documentation is available on the [documentation page](https://uhh-lt.github.io/GermEval2017-Baseline/).
 
 You can download the compiled project from:
 https://ltnas1.informatik.uni-hamburg.de:8081/owncloud/index.php/s/0dht3oSyBhTZDzL
@@ -45,12 +46,23 @@ You can test the models by executing:
 java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify ../dev.xml
 ```
 or
-``
+```
 java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify ../dev.tsv
 ```
 
 This will produce a file with "_classified" added to its name. This file contains the predictions.
 
+
+## Compilation
+
+You can compile the project using Maven:
+
+* go into the project folder
+* execute
+```
+mvn clean compile package
+```
+* the compiled project is under ./target/
 
 
 ## Access to the classification results
@@ -69,9 +81,36 @@ A quick way to do this is to add the following repository to your projects POM f
 
 Now, you can add the project's dependency:
 
+```
+    <dependency>
+	    <groupId>com.github.uhh-lt</groupId>
+	    <artifactId>GermEval2017-Baseline</artifactId>
+	    <version>-SNAPSHOT</version>
+	</dependency>
+```
 
-## Quickstart
+To access the models, you need to copy them into the data folder; you can get models from the [compiled project](https://ltnas1.informatik.uni-hamburg.de:8081/owncloud/index.php/s/0dht3oSyBhTZDzL).
 
+Now, you can add the 'AbSentiment' classifier to your code and analyze text documents:
+
+```
+import uhh_lt.GermEval2017.baseline.type.Result;
+import uhh_lt.GermEval2017.baseline.AbSentiment;
+
+public class MyClass {
+
+    public static void main(String[] args) {
+        AbSentiment analyzer = new AbSentiment();
+
+        Result result = analyzer.analyzeText("This is the input string");
+
+        // get Sentiment of text
+        System.out.println(result.getSentiment());
+        System.out.println(result.getSentimentScore());
+
+    }
+}
+```
 
 
 ## Licence
