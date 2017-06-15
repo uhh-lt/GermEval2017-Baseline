@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+    <name>GoldAspectTarget</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <types>
+        <typeDescription>
+            <name>uhh_lt.GermEval2017.baseline.type.uima.GoldAspectTarget</name>
+            <description/>
+            <supertypeName>uima.tcas.Annotation</supertypeName>
+            <features>
+                <featureDescription>
+                    <name>AspectTargetType</name>
+                    <description/>
+                    <rangeTypeName>uima.cas.String</rangeTypeName>
+                </featureDescription>
+            </features>
+        </typeDescription>
+    </types>
+</typeSystemDescription>
