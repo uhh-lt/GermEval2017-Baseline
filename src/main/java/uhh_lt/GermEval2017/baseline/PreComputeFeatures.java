@@ -1,9 +1,9 @@
 package uhh_lt.GermEval2017.baseline;
 
-import uhh_lt.GermEval2017.baseline.featureExtractor.precomputation.ComputeCorpusIdfScores;
+import uhh_lt.GermEval2017.baseline.featureExtractor.precomputation.ComputeCorpusTfScores;
 
 /**
- * Precomputation of IDF map and other data used in features.
+ * Precomputation of TF map and other data used in features.
  */
 public class PreComputeFeatures {
 
@@ -13,10 +13,10 @@ public class PreComputeFeatures {
      */
     public static void main(String[] args) {
 
-        String idfFile = "data/features/idfmap.tsv.gz";
+        String tfFile = "data/features/tfmap.tsv.gz";
         String corpusFile = "train.tsv";
 
-        ComputeCorpusIdfScores.computeIdfScores(corpusFile, idfFile, 100);
+        ComputeCorpusTfScores.computeScores(corpusFile, tfFile, 100);
 
     }
 

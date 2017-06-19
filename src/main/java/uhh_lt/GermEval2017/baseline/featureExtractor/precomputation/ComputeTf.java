@@ -1,7 +1,7 @@
 package uhh_lt.GermEval2017.baseline.featureExtractor.precomputation;
 
+import uhh_lt.GermEval2017.baseline.featureExtractor.TfFeatures;
 import uhh_lt.GermEval2017.baseline.type.Document;
-import uhh_lt.GermEval2017.baseline.featureExtractor.TfIdfFeature;
 import uhh_lt.GermEval2017.baseline.uimahelper.Preprocessor;
 
 import java.io.*;
@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * Computes the IDF Scores from a corpus collection of {@link Document}s.
- * Scores can be stored in a file, e.g. to be used by the TF-IDF Feature {@link TfIdfFeature}
+ * Computes the TF Scores and term IDs from a corpus collection of {@link Document}s.
+ * Scores can be stored in a file, e.g. to be used by the TF Feature {@link TfFeatures}
  */
-public class ComputeIdf {
+public class ComputeTf {
 
     private int minFrequency = 1;
 
@@ -28,7 +28,7 @@ public class ComputeIdf {
     /**
      * Constructor
      */
-    public ComputeIdf() {
+    public ComputeTf() {
         documentFrequency  = new HashMap<>();
         preprocessor = new Preprocessor(true);
         tokenIds = new HashMap<>();
@@ -84,25 +84,24 @@ public class ComputeIdf {
     }
 
     /**
-     * Saves the IDF scores in a tab-separated format:<br>
-     * TOKEN  &emsp; TOKEN_ID &emsp; IDF-SCORE &emsp; FREQUENCY
-     * @param idfFile path to the output file
+     * Saves the scores and word IDs in a tab-separated format:<br>
+     * TOKEN  &emsp; TOKEN_ID &emsp; FREQUENCY
+     * @param tfFile path to the output file
      */
-    protected void saveIdfScores(String idfFile) {
+    protected void saveScores(String tfFile) {
         try {
             Writer out;
-            if (idfFile.endsWith(".gz")) {
-                out = new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(idfFile)), "UTF-8");
+            if (tfFile.endsWith(".gz")) {
+                out = new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(tfFile)), "UTF-8");
             } else {
                 out = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(idfFile), "UTF-8"));
+                        new FileOutputStream(tfFile), "UTF-8"));
             }
             for (String token : tokenIds.keySet()) {
                 int tokenId = tokenIds.get(token);
                 int frequency = documentFrequency.get(tokenId);
                 if (frequency >= minFrequency) {
-                    double idfScore = Math.log(documentCount / frequency);
-                    out.write(token + "\t" + tokenId + "\t" + idfScore + "\t" + frequency + "\n");
+                    out.write(token + "\t" + tokenId + "\t" + frequency + "\n");
                 }
             }
             out.close();

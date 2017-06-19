@@ -16,35 +16,33 @@ import java.util.HashMap;
 import java.util.zip.GZIPInputStream;
 
 /**
- * TF-IDF {@link FeatureExtractor}, extracts normalized TF-IDF scores using a pre-computed IDF file.
+ * TF {@link FeatureExtractor}, extracts normalized TF scores using a pre-computed file with term IDs.
  */
-public class TfIdfFeature implements FeatureExtractor {
+public class TfFeatures implements FeatureExtractor {
 
     private int maxTokenId = 0;
     private int offset = 0;
-    private boolean useIdf = false;
 
-    private HashMap<Integer, Double> termIdf = new HashMap<>();
     private HashMap<String, Integer> tokenIds = new HashMap<>();
     private HashMap<Integer, String> tokenStrings = new HashMap<>();
 
     private Preprocessor preprocessor = new Preprocessor();
 
     /**
-     * Constructor; specifies the IDF file. Feature offset is set to '0' by default.
-     * @param idfFile path to the file containing IDF scores
+     * Constructor; specifies the TF file. Feature offset is set to '0' by default.
+     * @param tfFile path to the file containing scores and term IDs
      */
-    public TfIdfFeature(String idfFile) {
-        loadIdfList(idfFile);
+    public TfFeatures(String tfFile) {
+        loadList(tfFile);
     }
 
     /**
-     * Constructor; specifies the IDF file. Feature offset is specified.
-     * @param idfFile path to the file containing IDF scores
+     * Constructor; specifies the TF file. Feature offset is specified.
+     * @param tfFile path to the file containing scores
      * @param offset the feature offset, all features start from this offset
      */
-    public TfIdfFeature(String idfFile, int offset) {
-        this(idfFile);
+    public TfFeatures(String tfFile, int offset) {
+        this(tfFile);
         this.offset = offset;
     }
 
@@ -53,7 +51,7 @@ public class TfIdfFeature implements FeatureExtractor {
 
         Collection<String> documentText = preprocessor.getTokenStrings(cas);
         HashMap<Integer, Integer> tokenCounts = getTokenCounts(documentText);
-        return getTfIdfScores(tokenCounts);
+        return getScores(tokenCounts);
     }
 
     /**
@@ -91,27 +89,18 @@ public class TfIdfFeature implements FeatureExtractor {
     }
 
     /**
-     * Calculates the instance array containing TF-IDF scores for each token
+     * Calculates the instance array containing TF scores for each token
      * @param tokenCounts the token count for each token ID
      * @return an array of {@link Feature} elements
      */
-    private Feature[] getTfIdfScores(HashMap<Integer, Integer> tokenCounts) {
-        int count;
-        double idf;
+    private Feature[] getScores(HashMap<Integer, Integer> tokenCounts) {
         double weight;
         double normalizedWeight;
         double norm = 0;
 
         HashMap<Integer, Double> termWeights = new HashMap<>();
-        // calculate TF-IDF scores for each token, also add to normalizer
         for (int tokenID : tokenCounts.keySet()) {
-            count = tokenCounts.get(tokenID);
-            idf = termIdf.get(tokenID);
-            if (useIdf) {
-                weight = count * idf;
-            } else {
-                weight = count;
-            }
+            weight = tokenCounts.get(tokenID);
 
             if (weight > 0.0) {
                 norm += Math.pow(weight, 2);
@@ -126,7 +115,6 @@ public class TfIdfFeature implements FeatureExtractor {
         Collections.sort(list);
         Double w;
         int i =0;
-        // add normalized TF-IDF scores to the training instance
         for (int tokenId: list) {
             w = termWeights.get(tokenId);
             if (w == null) {
@@ -138,14 +126,6 @@ public class TfIdfFeature implements FeatureExtractor {
         return instance;
     }
 
-    public double getIdfScore(String term) {
-        return termIdf.get(getWordId(term));
-    }
-
-    public double getIdfScore(Integer termId) {
-        return termIdf.get(termId);
-    }
-
     public int getWordId(String term) {
         return tokenIds.get(term);
     }
@@ -155,10 +135,10 @@ public class TfIdfFeature implements FeatureExtractor {
     }
 
     /**
-     * Loads a word list with words, wordIds and IDF scores.
+     * Loads a word list with words, wordIds and  frequencies.
      * @param fileName the path to the input file
      */
-    private void loadIdfList(String fileName) {
+    private void loadList(String fileName) {
         try {
             BufferedReader br;
             if (fileName.endsWith(".gz")) {
@@ -174,7 +154,6 @@ public class TfIdfFeature implements FeatureExtractor {
                 int tokenId = ++maxTokenId;
                 tokenIds.put(tokenLine[0], tokenId);
                 tokenStrings.put(tokenId, tokenLine[0]);
-                termIdf.put(tokenId, Double.parseDouble(tokenLine[2]));
             }
             br.close();
         } catch (IOException e) {

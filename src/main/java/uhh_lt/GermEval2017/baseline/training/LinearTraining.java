@@ -4,7 +4,7 @@ package uhh_lt.GermEval2017.baseline.training;
 import de.bwaldvogel.liblinear.*;
 import uhh_lt.GermEval2017.baseline.featureExtractor.FeatureExtractor;
 import uhh_lt.GermEval2017.baseline.featureExtractor.GazeteerFeature;
-import uhh_lt.GermEval2017.baseline.featureExtractor.TfIdfFeature;
+import uhh_lt.GermEval2017.baseline.featureExtractor.TfFeatures;
 import uhh_lt.GermEval2017.baseline.type.Document;
 import uhh_lt.GermEval2017.baseline.uimahelper.Preprocessor;
 import org.apache.uima.jcas.JCas;
@@ -38,7 +38,7 @@ public class LinearTraining {
     protected static String labelMappingsFile;
     protected static String featureOutputFile;
     protected static String featureStatisticsFile;
-    protected static String idfFile = "data/features/idfmap.tsv.gz";
+    protected static String tfFile = "data/features/tfmap.tsv.gz";
 
     protected static String positiveGazeteerFile;
     protected static String negativeGazeteerFile;
@@ -50,9 +50,9 @@ public class LinearTraining {
     protected static Vector<FeatureExtractor> loadFeatureExtractors() {
         int offset = 0;
         Vector<FeatureExtractor> features = new Vector<>();
-        FeatureExtractor tfidf = new TfIdfFeature(idfFile, offset);
-        offset += tfidf.getFeatureCount();
-        features.add(tfidf);
+        FeatureExtractor tf = new TfFeatures(tfFile, offset);
+        offset += tf.getFeatureCount();
+        features.add(tf);
 
         // FeatureExtractors are added to the features Vector;
         // the offset should be updated for each new FeatureExtractor to prevent overlapping Feature ids
