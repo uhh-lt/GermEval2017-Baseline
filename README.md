@@ -51,6 +51,10 @@ java -cp ABSA-Baseline-0.0.1-SNAPSHOT.jar uhh_lt.GermEval2017.baseline.Classify 
 
 This will produce a file with "_classified" added to its name. This file contains the predictions.
 
+## Evaluation
+
+To evaluate your classifier performance, you should ue the official GermEval2017 evaluation script: https://github.com/muchafel/GermEval2017
+
 
 ## Compilation
 
