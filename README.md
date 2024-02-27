@@ -1,4 +1,6 @@
 # Baseline Sentiment Analysis Tool
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fuhh-lt%2FGermEval2017-Baseline.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fuhh-lt%2FGermEval2017-Baseline?ref=badge_shield)
+
 
 
 ## Overview
@@ -119,6 +121,9 @@ public class MyClass {
 ## Licence
 This software is published under the Apache Software Licence 2.0.
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fuhh-lt%2FGermEval2017-Baseline.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fuhh-lt%2FGermEval2017-Baseline?ref=badge_large)
 
 ## References
 
